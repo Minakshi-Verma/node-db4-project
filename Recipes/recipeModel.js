@@ -2,8 +2,8 @@ const db = require("../db-config.js");
 
 module.exports = {
   getRecipes,
-//   getShoppingList,
-//   getInstructions,
+  getShoppingList,
+  getInstructions,
 };
 
 
@@ -15,14 +15,25 @@ function getRecipes(){
 
   //-----get shoppingList by id---
 
-//   function getShoppingList(rec_id) {
-//     return db("recipes")
-//     .where({rec_id})
-//     .first();
-//   }
+  function getShoppingList(id) {
+    return db("recipes")
+    .select('i.ing_name', 'i.quantity', 's.rec_id')
+    .from('shoppingList as s')
+    .join("ingredients as i", 'i.ing_id', '=', 's.ing_id') 
+    .join("recipes as r", "r.rec.id", '=','s.rec_id')
+    .where({rec_id:id})
 
 
-//   //----getInstructions by id-----
-//   function getInstructions(rec_id) {
-//     return db("recipes");
-//   }
+    // .where({rec_id})
+    // .first();
+  }
+
+
+  //----getInstructions by id-----
+  function getInstructions(id) {
+    return db("steps")
+    .select('st.step', 'st.rec_id','r.rec_name')
+    .from('steps as st')
+    .join("recipes as r", 'r.rec_id', '=', 'st.rec_id')    
+    .where({rec_id:id});
+  }
