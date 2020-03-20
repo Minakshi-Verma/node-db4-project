@@ -32,8 +32,8 @@ function getRecipes(){
   //----getInstructions by id-----
   function getInstructions(id) {
     return db("steps")
-    .select('st.step', 'st.rec_id','r.rec_name')
+    .select('st.step', 'st.rec_id')
     .from('steps as st')
-    .join("recipes as r", 'r.rec_id', '=', 'st.rec_id')    
+    // .join("recipes as r", 'r.rec_id', '=', 'st.rec_id')    
     .where({rec_id:id});
   }
